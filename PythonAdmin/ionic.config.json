@@ -1,0 +1,9 @@
+{
+  "name": "PythonAdmin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "server": {
+    "cleartext": true}
+}

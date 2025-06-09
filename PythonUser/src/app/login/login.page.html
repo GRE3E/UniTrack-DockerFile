@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar >
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="login-container">
+    <div class="top-section">
+      <h1 class="university-title">Universidad César Vallejo</h1>
+      </div>
+
+    <div class="login-card">
+      <ion-list lines="none">
+        <ion-item class="welcome-section">
+          <h2 class="welcome-text">¡BIENVENIDO! INICIAR SESIÓN</h2>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked" class="lbl">Correo institucional:</ion-label>
+          <ion-input type="email" fill="outline" class="custom-input" [(ngModel)]="correoE" name="correo" placeholder="Ingrese su correo institucional"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked" class="lbl">Contraseña:</ion-label>
+          <ion-input type="password" fill="outline" class="custom-input" [(ngModel)]="contrasenaE" name="contrasena" placeholder="Ingrese su contraseña"></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-text-center ion-no-padding">
+          <ion-button expand="block" (click)="login()" routerLink="" class="login-button">Iniciar sesión</ion-button>
+        </ion-item>
+
+        <ion-item class="ion-text-center ion-no-padding">
+          <p class="link-text" routerLink="/register">¿No tienes una cuenta? Regístrate</p>
+        </ion-item>
+
+        <ion-item class="ion-text-center ion-no-padding">
+          <p class="link-text" routerLink="/correo">¿Olvidaste tu contraseña?</p>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

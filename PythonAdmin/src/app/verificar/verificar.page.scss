@@ -1,0 +1,131 @@
+.header {
+  position: absolute;
+  background: #0426ac;  
+  height: 100vh;
+  margin: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+    background: white;
+    border-radius: 40px;
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+}
+
+.login-form {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.ptit {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 800;
+    font-style: bold;
+    color: rgb(255, 255, 255);
+    margin-top: 0px;
+}
+
+.lbl {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.ion-input {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    --border-color: none;
+    border: solid 1px black;
+    background: rgba(207, 207, 207, 0.484);
+    width: 100%; // Mantener el ancho
+    height: 10px; // Reducir la altura
+    padding: 8px 12px; // Ajustar el padding interno
+}
+
+.ion-select {
+    width: 100%;
+}
+
+.wel {
+    color: black;
+    font-size: 18px;
+    text-transform: none;
+    font-weight: 550;
+    margin-bottom: 20px;
+    margin-left: 0px;
+    display: flex;
+    justify-content: center; // Centra horizontalmente el elemento
+    align-items: center; // Centra verticalmente el elemento
+  }
+
+.close-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.btn-close,
+.btn-close-placeholder {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.btn-close {
+  margin-right: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --box-shadow: none;
+  color: black;
+  ion-icon {
+    font-size: 1.8rem;
+    transition: transform 0.2s ease;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.tit {
+  flex: 1;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.ion-button {
+    --box-shadow: none;
+    --border-radius: 20px;
+    text-transform: none;
+    font-weight: 600;
+    font-size: 21px;
+    height: 55px;
+    width: 90%;
+    margin: 20px auto 0;
+  }
+
+  ion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  ion-radio-group {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  ion-radio-group ion-item {
+    margin-left: 16px;
+  }

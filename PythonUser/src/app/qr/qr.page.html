@@ -1,0 +1,32 @@
+<ion-content [fullscreen]="true">
+  <ion-list class="ion-padding">
+    <ion-item class="ionit" lines="none">
+      <ion-label class="tit">¡BIENVENIDO VALLEJIANO!</ion-label>
+    </ion-item>
+
+    <ion-item class="ionit" lines="none">
+      <img class="imgper" src="/assets/iconper.png" alt="perfil">
+    </ion-item>
+
+    <ion-item class="nombre" lines="none">
+      <ion-label class="nom">{{ nombrecompleto }}</ion-label>
+    </ion-item>
+
+    <ion-item class="ioniit" lines="none">
+      <ion-label class="text">Acércate a una cámara para escanear tu código y entrar a las instalaciones de la universidad</ion-label>
+    </ion-item>
+
+    <ion-item class="ionit" lines="none">
+      <img [src]="qrImageUrl" *ngIf="qrImageUrl" alt="Código QR">
+    </ion-item>
+
+   
+
+    <ion-item class="ionit" lines="none">
+      <ion-button class="btn" routerLink="/perfil">
+        Cerrar
+      </ion-button>
+    </ion-item>
+    
+  </ion-list>
+</ion-content>

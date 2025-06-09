@@ -1,0 +1,144 @@
+/* Estilos generales del contenedor */
+.container {
+  --background: #0426ac;
+}
+
+.header {
+  position: relative; /* Cambio de absolute para mejor manejo */
+  background: #0426ac;
+  min-height: 100vh; /* Mejor que height para contenido largo */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+/* Contenedor del formulario */
+.form-container {
+  background: white;
+  border-radius: 40px;
+  width: 90%;
+  max-width: 400px;
+  padding: 30px;
+  position: relative; 
+  margin: 20px 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón de cerrar */
+.close-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.btn-close,
+.btn-close-placeholder {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.btn-close {
+  margin-right: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --box-shadow: none;
+  color: black;
+  ion-icon {
+    font-size: 1.8rem;
+    transition: transform 0.2s ease;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.tit {
+  flex: 1;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Mensaje de instrucción */
+.wel {
+  color: #333;
+  font-size: 1rem;
+  text-align: center;
+  margin: 0 0 25px 0;
+  line-height: 1.4;
+  padding: 0 10px;
+}
+
+/* Estilos para los inputs */
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --min-height: 60px;
+  margin-bottom: 15px;
+}
+
+.ion-input {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid #333;
+  background: rgba(207, 207, 207, 0.3);
+  width: 100%;
+  height: 48px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border-radius: 8px;
+}
+
+/* Botón de verificar */
+.ion-button {
+  --border-radius: 12px;
+  --background: #0426ac;
+  --color: white;
+  --height: 150px;      // Cambia aquí la altura del botón
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 100%;
+  margin: 25px 0 0 0;
+  --box-shadow: 0 2px 8px rgba(4, 38, 172, 0.3);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+}
+
+/* Media queries para responsive */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 25px;
+    border-radius: 30px;
+  }
+  
+  .btn-close {
+    left: 10px;
+    top: 10px;
+  }
+  
+  .wel {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .form-container {
+    padding: 20px;
+    border-radius: 25px;
+  }
+  
+  .ion-button {
+    height: 48px;
+    font-size: 0.95rem;
+  }
+}

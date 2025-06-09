@@ -1,0 +1,10 @@
+{
+  "name": "PythonUser",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular", 
+  "server": {
+    "cleartext": true
+  }
+}

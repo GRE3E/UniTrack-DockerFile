@@ -1,0 +1,139 @@
+// --- Estilos para el HEADER ---
+ion-header {
+  ion-toolbar {
+    --background: #0426ac;
+  }
+}
+
+ion-content {
+  --background: #0426ac; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  padding: 20px; 
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%; 
+}
+
+// Estilos para el contenedor del título principal y la descripción
+.message-container {
+  text-align: center;
+  margin-bottom: 25px; 
+  max-width: 500px;
+  padding: 0 15px; 
+}
+// Nuevo estilo para el título principal "¡CAMBIA TU CONTRASEÑA!"
+.main-page-title {
+  color: white; 
+  font-size: 1.8rem; 
+  font-weight: bold; 
+  margin-bottom: 10px; 
+  margin-top: 0;
+}
+
+.message-description {
+  color: #e0e0e0; 
+  font-size: 1rem; 
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+.password-reset-card {
+  background: white; 
+  width: 90%; 
+  max-width: 450px; 
+  border-radius: 20px; 
+  padding: 30px; // Padding interno generoso
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); // Sombra sutil
+  margin: 0;
+  overflow-y: auto;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// --- Estilos para los ELEMENTOS DEL FORMULARIO ---
+ion-list {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+ion-item {
+  --background: transparent;
+  --inner-padding-end: 0;
+  --padding-start: 0;
+  margin-bottom: 20px; // Espacio entre los inputs
+  --border-width: 0;
+}
+
+.custom-input {
+  --background: rgba(207, 207, 207, 0.484);
+  --border-color: #e0e0e0; // Borde sutil
+  --border-radius: 8px; // Bordes redondeados
+  --padding-start: 15px;
+  height: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.action-button { 
+  --box-shadow: none;
+  --border-radius: 25px; 
+  text-transform: uppercase; 
+  font-weight: 600;
+  font-size: 1.2rem;
+  height: 55px;
+  width: 100%;
+  margin-top: 30px;
+  --background: #0426ac; 
+  margin-bottom: 15px;
+}
+
+.back-to-login { // Contenedor para el enlace
+  --background: transparent;
+  --border-width: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.link-button {
+  --color: var(--ion-color-secondary); // Color azul para el texto del enlace
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: none; // Sin mayúsculas
+  height: auto;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+/* Media Queries para responsividad */
+@media (min-width: 768px) {
+  .password-reset-card {
+    width: 60%;
+  }
+  .message-container {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .password-reset-card {
+    width: 450px;
+    padding: 30px 40px; // Aumentar padding horizontal para un diseño más compacto
+  }
+  .message-container {
+    max-width: 450px; // Ajusta el ancho del mensaje para que coincida con la tarjeta
+  }
+}

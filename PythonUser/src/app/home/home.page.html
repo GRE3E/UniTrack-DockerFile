@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true">
+  <ion-list class="ion-padding">
+    <ion-item class="ionit" lines="none">
+      <ion-label class="tit">¡BIENVENIDO VALLEJIANO!</ion-label>
+    </ion-item>
+    <ion-item class="ionit" lines="none">
+     <div class=" imgper">
+      <ion-label class="foto"> Foto</ion-label>
+     </div>
+    </ion-item>
+    
+    <ion-item class="nombre" lines="none">
+      <ion-label class="nom">{{ nombrecompleto }}</ion-label>
+    </ion-item>
+
+    <ion-item class="ioniit" lines="none">
+      <ion-label class="text" >Genera tu código QR para que puedas acceder a las instalaciones de la universidad</ion-label>
+    </ion-item>
+
+    <!-- Switch para seleccionar entrada o salida -->
+    <ion-item  lines="none">
+      <ion-label>{{ isEntrada ? 'Entrada' : 'Salida' }}</ion-label>
+      <ion-toggle [(ngModel)]="isEntrada" (ionChange)="onToggleChange()"></ion-toggle>
+    </ion-item>
+
+    <ion-item class="ionit" lines="none">
+      <ion-button class="btn" (click)="generarQR()" >
+        Generar QR
+      </ion-button>
+    </ion-item>
+
+    <ion-item class="ionit" lines="none">
+      <ion-button class="btn" routerLink="/login">
+        Cerrar sesión
+      </ion-button>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <ion-button color="primary" fill="clear" routerLink="/perfil">
+            <ion-label> Perfil </ion-label>
+          </ion-button>
+        </ion-col>
+
+        <ion-col size="3">
+          <ion-button color="primary" fill="clear" routerLink="/home">
+            <ion-label> QR </ion-label>
+          </ion-button>
+        </ion-col>
+
+        <ion-col size="3">
+          <ion-button color="primary" fill="clear" routerLink="/historial">
+            <ion-label>   Historial </ion-label>
+          </ion-button>
+        </ion-col>
+
+        <ion-col size="3">
+          <ion-button color="primary" fill="clear" routerLink="/login">
+            <ion-label> Salir </ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

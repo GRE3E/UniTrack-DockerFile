@@ -1,0 +1,11 @@
+Flask
+Flask-Mail
+mysql-connector-python
+opencv-python
+numpy
+web3
+pillow
+python-dotenv
+Flask-Cors
+qrcode
+pyzbar

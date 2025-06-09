@@ -1,0 +1,104 @@
+
+/* ESTRUCTURA PRINCIPAL */
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 5%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+/* MENÚ LATERAL (Estilo consistente) */
+
+
+ion-menu {
+  width: 180px;
+  
+  ion-toolbar {
+    --background: #f2f2f2; 
+    --color: #333333; 
+    font-weight: bold;
+  }
+  
+  ion-item-divider {
+    --background: #f2f2f2; 
+    --color: #333333;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    
+    ion-icon {
+      color: #555555; 
+      margin-right: 10px;
+    }
+  }
+}
+
+/* TABLA (Estilo original) */
+
+.table-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+
+  .tit {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .sub {
+    text-align: center;
+    padding: 10px 0;
+  }
+}
+
+
+/* TÍTULOS */
+
+.welcome {
+  font-family: Arial, sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  color: #333333;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.report {
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  color: #333333;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+/* CONTENIDO IONIC */
+
+ion-content {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.letr {
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.centro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

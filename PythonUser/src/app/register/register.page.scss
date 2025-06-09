@@ -1,0 +1,147 @@
+ion-toolbar {
+  --background: #0426ac;
+  padding: 10px;
+  position: relative;
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+}
+
+.tit {
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  padding-left: 60px;
+  margin-right: 60px;
+}
+
+ion-content {
+  --background: #0426ac; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  padding: 20px;
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  min-height: 100%; 
+}
+
+.register-card {
+  background: white;
+  width: 90%;
+  max-width: 500px; 
+  border-radius: 20px; 
+  padding: 20px; 
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); 
+  margin: 20px 0; 
+}
+
+ion-list {
+  background: transparent; 
+  margin: 0;
+  padding: 0;
+}
+
+ion-item {
+  --background: transparent; 
+  --inner-padding-end: 0; 
+  --padding-start: 0; 
+  margin-bottom: 15px; 
+}
+
+.lbl {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px; 
+}
+
+.custom-input {
+  --background: rgba(207, 207, 207, 0.484);
+  --border-color: #ddd;
+  --border-radius: 10px;
+  --padding-start: 15px;
+  height: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%; 
+}
+
+
+ion-select.custom-input {
+  --placeholder-color: #999;
+  --placeholder-opacity: 1;
+}
+
+.buttons-container {
+  --inner-padding-end: 0;
+  --padding-start: 0;
+}
+
+.buttons-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.register-button, .button-cancel {
+  --box-shadow: none;
+  --border-radius: 25px;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  height: 55px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.register-button {
+  --background: rgb(51, 51, 242);
+  order: 1;
+}
+
+.button-cancel {
+  --background: rgb(233, 17, 17);
+  order: 2; 
+}
+
+// Media queries para ajustes responsivos si es necesario
+@media (min-width: 768px) {
+  .register-card {
+    width: 70%; // Un poco más ancho en tablets
+  }
+  .buttons-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .register-button, .button-cancel {
+    width: 48%; /* Ajuste para que quepan ambos */
+    margin-top: 25px;
+    }
+    .register-button {
+     order: 2;
+    }
+
+    .button-cancel {
+      order: 1; /* Cancelar segundo en mobile */
+    }
+  }
+
+
+
+@media (min-width: 1024px) {
+  .register-card {
+    width: 40%; // Más estrecho en desktops
+  }
+}
+

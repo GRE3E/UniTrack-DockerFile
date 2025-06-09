@@ -1,0 +1,18 @@
+# Ignorar archivos de entorno
+*.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Node.js (Angular/Ionic)
+node_modules/
+dist/
+build/
+
+# Otros archivos temporales
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

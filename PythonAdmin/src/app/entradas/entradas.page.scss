@@ -1,0 +1,101 @@
+
+/* ESTRUCTURA PRINCIPAL */
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 5%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+/* MENÚ LATERAL (Estilo consistente) */
+
+ion-menu {
+  width: 180px;
+  
+  ion-toolbar {
+    --background: #f2f2f2;
+    --color: #333333;
+    font-weight: bold;
+  }
+  
+  ion-item-divider {
+    --background: #f2f2f2;
+    --color: #333333;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    
+    ion-icon {
+      color: #555555;
+      margin-right: 10px;
+    }
+  }
+}
+
+
+/* TABLA (Combinación de ambos estilos) */
+
+.table-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  overflow-x: auto; /* Añade scroll horizontal en móviles */
+
+  .tit {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .sub {
+    text-align: center;
+    padding: 10px 0;
+  }
+}
+
+
+/* TÍTULOS (Versión mejorada) */
+
+.welcome {
+  font-family: Arial, sans-serif;
+  font-size: clamp(1.8rem, 6vw, 2.25rem); 
+  font-weight: bold;
+  text-align: center;
+  color: #333333;
+  margin: 30px 0; 
+}
+
+.report {
+  font-family: Arial, sans-serif;
+  font-size: clamp(1.25rem, 5vw, 1.75rem); /* Haciéndolo responsive */
+  font-weight: bold;
+  text-align: center;
+  color: #333333;
+  margin: 15px 0;
+}
+
+
+ion-content {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.letr {
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.centro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

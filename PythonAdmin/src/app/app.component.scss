@@ -1,0 +1,47 @@
+
+/* MENÚ LATERAL (Estilo global) */
+
+ion-menu {
+  --width: 250px;
+  --max-width: 85%;
+
+  ion-toolbar {
+    --background: #f2f2f2; /* Gris claro para el header */
+    --color: #333333; /* Texto oscuro */
+    font-weight: bold;
+  }
+
+  ion-item-divider {
+    --background: #f2f2f2; /* Gris claro */
+    --color: #333333; /* Texto oscuro */
+    font-weight: bold;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    
+    ion-icon {
+      color: #555555;
+      margin-right: 10px;
+    }
+  }
+}
+
+/* BOTÓN HAMBURGUESA */
+ion-menu-button {
+  --color: #333;
+  z-index: 999;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* CONTENIDO GLOBAL */
+ion-content {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+/* Media Queries para menú */
+@media (max-width: 768px) {
+  ion-menu {
+    --width: 280px;
+  }
+}

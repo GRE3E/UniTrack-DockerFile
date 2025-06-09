@@ -1,0 +1,234 @@
+ion-footer ion-toolbar {
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  /* Added padding to avoid content being hidden by the footer on small screens */
+  --padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-footer ion-toolbar ion-grid {
+  display: flex;
+  justify-content: space-around; /* Distribute items evenly */
+  align-items: center;
+  width: 100%; /* Ensure grid takes full width of toolbar */
+}
+
+ion-footer ion-toolbar ion-grid ion-button {
+  --padding-start: 0.5rem; /* Reduced padding for smaller screens */
+  --padding-end: 0.5rem;
+  font-size: 0.8rem; /* Smaller font size for labels in footer */
+  flex-grow: 1; /* Allow buttons to grow and fill available space */
+}
+
+ion-footer ion-toolbar ion-grid ion-button ion-icon {
+  font-size: 1.2rem; /* Adjusted icon size */
+  color: #555;
+}
+
+ion-footer ion-toolbar ion-grid ion-row {
+  width: 500px;
+}
+
+.header {
+  position: relative; /* Changed to relative for better flow, adjust if fixed header is essential */
+  background-color: #0426ac;
+  height: 200px; /* Reduced header height for better use of screen space */
+  width: 100%;
+  display: flex; /* Use flexbox for centering content */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack items vertically */
+}
+
+.ptit {
+  font-size: 1.8rem; /* Use rem for scalable font sizes */
+  text-align: center;
+  font-weight: 900;
+  font-style: italic;
+  color: white;
+  margin-top: 0; /* Remove fixed margin-top */
+  padding-top: 20px; /* Add padding top if needed for content below header */
+}
+
+ion-list.profile-list {
+  background: white;
+  margin: -60px 15px 20px 15px; /* Pull the list up into the header, add side margins */
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  height: auto;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+  padding-top: 20px; /* Padding for content inside the list */
+}
+
+.imgper {
+  height: 100px;
+  width: 100px;
+  margin: 0 auto 10px auto; /* Center and add margin below */
+  background-color: #ccc; /* Lighter background for the photo placeholder */
+  border-radius: 50%;
+  display: flex; /* Use flexbox for centering "Foto" text */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure image fits if one is added */
+}
+
+.imgper .foto {
+  color: #555; /* Darker color for "Foto" text */
+  font-size: 1rem; /* Smaller font size */
+}
+
+.nom {
+  font-size: 1.4rem; /* Scalable font size for name */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px; /* Add space below the name */
+}
+
+.table-container {
+  border: 1px solid #eee; /* Lighter border */
+  border-radius: 8px; /* Slightly more rounded corners */
+  margin: 0 15px 20px 15px; /* Add side margins and bottom margin */
+  padding: 10px;
+  max-height: calc(
+    100vh - 350px
+  ); /* Adjust max-height dynamically, considering header and footer */
+  overflow-y: auto;
+  background-color: #f9f9f9; /* Slightly off-white background */
+}
+
+.table-container ion-grid {
+  width: 100%; /* Ensure grid takes full width of container */
+}
+
+.table-container ion-row {
+  border-bottom: 1px solid #eee; /* Separator for rows */
+}
+
+.table-container ion-row:last-child {
+  border-bottom: none; /* No border for the last row */
+}
+
+.tit {
+  background-color: #e0e7ff; /* A softer blue background for titles */
+  font-weight: 600; /* Slightly less bold */
+  text-align: left; /* Align text to the left */
+  padding: 12px 15px; /* More padding for better spacing */
+  font-size: 0.95rem;
+}
+
+.sub {
+  text-align: right; /* Align value to the right */
+  padding: 12px 15px;
+  font-size: 0.95rem;
+  color: #333; /* Slightly darker text for values */
+}
+
+/* Media Queries for different screen sizes */
+@media (min-width: 576px) {
+  /* Small devices (landscape phones, 576px and up) */
+  .header {
+    height: 250px; /* Slightly taller header */
+  }
+
+  .ptit {
+    font-size: 2.2rem;
+  }
+
+  ion-list.profile-list {
+    margin: -80px auto 20px auto; /* Center the list on larger screens */
+    width: 90%; /* Max width for the list */
+    max-width: 700px; /* Limit max width for very large screens */
+  }
+
+  .imgper {
+    height: 120px;
+    width: 120px;
+  }
+
+  .imgper .foto {
+    font-size: 1.2rem;
+  }
+
+  .nom {
+    font-size: 1.8rem;
+  }
+
+  .table-container {
+    margin: 0 20px 20px 20px;
+    padding: 15px;
+  }
+
+  .tit,
+  .sub {
+    padding: 15px 20px;
+    font-size: 1rem;
+  }
+
+  ion-footer ion-toolbar ion-grid ion-button {
+    font-size: 0.9rem;
+  }
+
+  ion-footer ion-toolbar ion-grid ion-button ion-icon {
+    font-size: 1.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Medium devices (tablets, 768px and up) */
+  .header {
+    height: 300px;
+  }
+
+  .ptit {
+    font-size: 2.5rem;
+  }
+
+  ion-list.profile-list {
+    margin: -100px auto 30px auto;
+    width: 80%;
+    max-width: 800px;
+  }
+
+  .imgper {
+    height: 140px;
+    width: 140px;
+  }
+
+  .imgper .foto {
+    font-size: 1.3rem;
+  }
+
+  .nom {
+    font-size: 2rem;
+  }
+
+  .table-container {
+    margin: 0 30px 30px 30px;
+    padding: 20px;
+  }
+
+  .tit,
+  .sub {
+    font-size: 1.05rem;
+  }
+
+  ion-footer ion-toolbar ion-grid ion-button {
+    font-size: 1rem;
+  }
+
+  ion-footer ion-toolbar ion-grid ion-button ion-icon {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+  /* Large devices (desktops, 992px and up) */
+  ion-list.profile-list {
+    max-width: 900px;
+  }
+
+  .table-container {
+    max-height: none; /* No max-height on larger screens for better content flow */
+  }
+}

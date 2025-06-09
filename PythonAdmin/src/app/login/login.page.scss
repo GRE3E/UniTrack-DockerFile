@@ -1,0 +1,105 @@
+/* Contenedor principal */
+.header {
+  background: #0426ac;
+  min-height: 100vh;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    padding-top: 40px;
+  }
+}
+
+/* Formulario */
+.form-container {
+  background: white;
+  border-radius: 40px;
+  width: 90%; 
+  max-width: 400px; 
+  min-width: 280px; 
+  padding: 2rem;
+  box-sizing: border-box;
+  margin: 20px 0;
+  
+  @media (max-width: 480px) {
+    border-radius: 20px;
+    padding: 1.5rem;
+    width: 95%;
+  }
+}
+
+/* Textos Responsives */
+.wel {
+  color: #4a6fff;
+  font-size: clamp(1.5rem, 5vw, 2.2rem); 
+  text-transform: none;
+  font-weight: 550;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.ptit {
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  text-align: center;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.lbl {
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+/* Campos de entrada mejorados */
+.ion-input {
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  font-weight: 600;
+  border: solid 1px black;
+  background: rgba(207, 207, 207, 0.484);
+  width: 100%; 
+  margin: 0.5rem 0;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  box-sizing: border-box;
+}
+
+/* Botones y enlaces responsive */
+.ion-button {
+  --border-radius: 20px;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 3.5vw, 1.3rem);
+  height: auto;
+  min-height: 55px;
+  width: 100%;
+  margin: 1.5rem 0 0;
+  padding: 0.8rem;
+}
+
+.creac, .resco {
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  text-align: center;
+  margin: 0.5rem 0;
+  color: #4a6fff;
+}
+
+.pcreac, .ppcreac, .pres {
+  margin: 0.5rem 0;
+  display: block;
+  text-align: center;
+}
+
+/* Ajuste específico para el icono de ojo */
+.eye-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  margin-right: 8px;
+}

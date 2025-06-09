@@ -1,0 +1,105 @@
+<ion-content>
+  <div class="header">
+    <p class="ptit">Universidad César Vallejo</p>
+  </div>
+
+  <ion-list lines="none" class="ion-text-center profile-list">
+    <div class="imgper">
+      <ion-label class="foto">Foto</ion-label>
+    </div>
+    <ion-label class="nom">{{ nombrecompleto }}</ion-label>
+
+    <div class="table-container">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Código de estudiante:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{codigo_estudiante}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Carrera:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{carreraE}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Ciclo:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{cicloE}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Correo universitario:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{correoE}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Correo del apoderado:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{correoA}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Edad:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{edadE}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="tit">Sexo:</div>
+          </ion-col>
+          <ion-col size-xs="12" size-sm="6">
+            <div class="sub">{{sexoE}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-list>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3">
+            <ion-button color="primary" fill="clear" routerLink="/perfil">
+              <ion-label> Perfil </ion-label>
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="3">
+            <ion-button color="primary" fill="clear" routerLink="/home">
+              <ion-label> QR </ion-label>
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="3">
+            <ion-button color="primary" fill="clear" routerLink="/historial">
+              <ion-label> historial </ion-label>
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="3">
+            <ion-button color="primary" fill="clear" routerLink="/login">
+              <ion-label> salir </ion-label>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

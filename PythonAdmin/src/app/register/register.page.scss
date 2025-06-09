@@ -1,0 +1,125 @@
+.header {
+  position: absolute;
+  background: #0426ac;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  margin: 0;
+}
+
+.form-container {
+  background: white;
+  border-radius: 40px;
+  width: 90%;
+  max-width: 400px;
+  min-width: 300px;
+  padding: 25px;
+  margin: 20px 0;
+  box-sizing: border-box;
+}
+
+.login-form {
+  background-color: transparent;
+  width: 100%;
+}
+
+/* ESTILOS ORIGINALES CON MEJORAS */
+.ion-input {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  --border-color: black;  
+  --border-width: 1px;    
+  --border-style: solid;  
+  background: rgba(207, 207, 207, 0.484);
+  width: 55%;
+  height: 35px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 4px; 
+}
+
+/* Select con el mismo estilo de borde */
+ion-select {
+  border: 1px solid black !important; 
+  background: rgba(207, 207, 207, 0.484);
+  border-radius: 4px;
+  width: 55%;
+  height: 35px;
+  padding: 0 12px;
+  font-size: 0.9rem;
+}
+
+
+.lbl {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 15px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+
+.wel {
+  color: black;
+  font-size: 1.1rem;
+  text-transform: none;
+  font-weight: 550;
+  margin-bottom: 20px;
+  margin-left: 0;
+  text-align: center;
+}
+
+.btn-close {
+  position: absolute; 
+  left: 15px; 
+  top: 15px; 
+  width: 40px;
+  height: 40px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --box-shadow: none;
+  color: black;
+  
+  ion-icon {
+    font-size: 1.8rem; 
+    transition: transform 0.2s ease; 
+  }
+}
+
+/* Botón de registro  */
+.ion-button {
+  --box-shadow: none;
+  --border-radius: 20px;
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  height: 55px;
+  width: 90%;
+  margin: 20px auto 0;
+  display: block;
+  color: white;
+}
+
+
+/* Ajustes para móviles  */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 20px 15px;
+    border-radius: 30px;
+  }
+  
+  .ion-input, ion-select {
+    width: 100%;
+    margin-top: 8px;
+  }
+  
+  .lbl {
+    width: 100%;
+    margin-left: 0;
+  }
+}

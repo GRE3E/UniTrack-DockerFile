@@ -1,0 +1,68 @@
+<ion-content class="container" [fullscreen]="true">
+  <form (ngSubmit)="onSubmit()">
+    <div class="header">
+      <div class="form-container">
+        <ion-list lines="none" class="ion-text-center login-form">
+
+          <ion-button class="btn-close" fill="clear" routerLink="/login">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+
+          <p class="wel">REGISTRAR </p>
+
+          <ion-item>
+            <ion-label class="lbl">Nombres:</ion-label>
+            <ion-input type="text" fill="outline" class="ion-input" [(ngModel)]="nombres" name="nombres">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="lbl">Apellidos:</ion-label>
+            <ion-input type="text" fill="outline" class="ion-input" [(ngModel)]="apellidos" name="apellidos">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="lbl">Admin Code:</ion-label>
+            <ion-input type="text" fill="outline" class="ion-input" [(ngModel)]="codigo_admin" name="codigoEstudiante">
+            </ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label class="lbl">Correo Univ:</ion-label>
+            <ion-input type="email" fill="outline" class="ion-input" [(ngModel)]="correo" name="correoUniversitario">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="lbl">Edad:</ion-label>
+            <ion-input type="text" fill="outline" class="ion-input" [(ngModel)]="edad" name="edad">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="lbl">Sexo:</ion-label>
+            <ion-select [(ngModel)]="sexo" name="sexo" interface="popover" placeholder="Selecciona sexo"
+              class="ion-input">
+              <ion-select-option value="mujer">Mujer</ion-select-option>
+              <ion-select-option value="hombre">Hombre</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="lbl">Contraseña:</ion-label>
+            <ion-input type="password" fill="outline" class="ion-input" [(ngModel)]="contrasena" name="contrasena">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="ion-align-items-center">
+            <ion-button type="submit" class="ion-button">Registrar</ion-button>
+          </ion-item>
+
+        </ion-list>
+      </div>
+    </div>
+
+  </form>
+</ion-content>

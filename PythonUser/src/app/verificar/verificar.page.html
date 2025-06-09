@@ -1,0 +1,21 @@
+<ion-content [fullscreen]="true">
+  <div class="modal-background-container">
+    <div class="token-modal-card">
+      <ion-icon name="close-circle-outline" class="close-icon" (click)="closeModal()"></ion-icon>
+      <h2 class="modal-description-title">Ingresa el token de verificación para el cambio de contraseña.</h2>
+
+      <ion-list lines="none">
+        <ion-item class="token-input-section">
+          <ion-label position="stacked" class="lbl">Token de seguridad:</ion-label>
+          <ion-input [(ngModel)]="verificationCode" class="custom-input" placeholder="Ingresa tu token"></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-no-padding ion-text-center">
+          <ion-button expand="block" class="action-button" (click)="verifyCode()">
+            Verificar
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

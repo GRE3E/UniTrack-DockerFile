@@ -1,0 +1,116 @@
+ion-header {
+  ion-toolbar {
+    --background: #0426ac;
+    height: 56px; 
+   
+  }
+}
+
+ion-content {
+  --background: #0426ac;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: center;
+  min-height: 100%; 
+  padding: 0; 
+}
+
+.top-section {
+  width: 100%;
+  height: 25vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #0426ac; 
+  position: relative; 
+  padding-top: 20px; 
+}
+
+.university-title {
+  font-size: 1.8rem; 
+  text-align: center;
+  font-weight: 900;
+  font-style: italic;
+  color: white;
+  margin: 0; 
+}
+
+.login-card {
+  background: white;
+  width: 90%; 
+  max-width: 450px; 
+  border-radius: 40px; 
+  padding: 20px 0; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative; 
+  margin-top: -80px; 
+  z-index: 10;
+}
+
+ion-list {
+  background: transparent;
+  margin: 0; 
+  padding: 0 20px; 
+}
+
+.welcome-section {
+  --background: transparent; 
+  text-align: center; 
+  padding-bottom: 10px; 
+}
+
+.welcome-text {
+  color: #4a6fff;
+  font-size: 2rem;
+  text-transform: uppercase; 
+  font-weight: 600; 
+  margin: 10px 0; 
+  width: 100%; 
+  text-align: center;
+}
+
+.lbl {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333; 
+  margin-bottom: 5px; 
+}
+
+.custom-input {
+  --background: rgba(207, 207, 207, 0.484);
+  --border-color: #ddd; 
+  --border-radius: 10px;
+  --padding-start: 15px;
+  height: 50px; 
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%; 
+  margin-bottom: 15px; 
+}
+
+.login-button {
+  --box-shadow: none;
+  --border-radius: 25px; 
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  height: 55px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px; 
+  --background: #0426ac;
+}
+
+.link-text {
+  color: #4a6fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 8px 0;
+  width: 100%;
+  text-align: center; 
+}

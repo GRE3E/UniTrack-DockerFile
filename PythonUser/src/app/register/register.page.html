@@ -1,0 +1,104 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="header-content">
+      <ion-title class="tit">Registro</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="register-container">
+    <div class="register-card">
+      <form (ngSubmit)="onSubmit()">
+        <ion-list lines="none">
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Nombres:</ion-label>
+            <ion-input type="text" class="custom-input" [(ngModel)]="nombres" name="nombres" required
+              placeholder="Ingrese sus nombres"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Apellidos:</ion-label>
+            <ion-input type="text" class="custom-input" [(ngModel)]="apellidos" name="apellidos" required
+              placeholder="Ingrese sus apellidos"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Correo universitario:</ion-label>
+            <ion-input type="email" class="custom-input" [(ngModel)]="correo" name="correo" required
+              placeholder="Ingrese su correo universitario"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Código de estudiante:</ion-label>
+            <ion-input type="text" class="custom-input" [(ngModel)]="codigo_estudiante" name="codigo_estudiante"
+              required placeholder="Ingrese su código de estudiante"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Correo del apoderado:</ion-label>
+            <ion-input type="email" class="custom-input" [(ngModel)]="correoA" name="correoA" required
+              placeholder="Ingrese el correo del apoderado (opcional)"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Carrera:</ion-label>
+            <ion-input type="text" class="custom-input" [(ngModel)]="carrera" name="carrera" required
+              placeholder="Ingrese su carrera"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Ciclo:</ion-label>
+            <ion-select [(ngModel)]="ciclo" name="ciclo" placeholder="Seleccione su ciclo" class="custom-input"
+              required>
+              <ion-select-option value="I">I</ion-select-option>
+              <ion-select-option value="II">II</ion-select-option>
+              <ion-select-option value="III">III</ion-select-option>
+              <ion-select-option value="IV">IV</ion-select-option>
+              <ion-select-option value="V">V</ion-select-option>
+              <ion-select-option value="VI">VI</ion-select-option>
+              <ion-select-option value="VII">VII</ion-select-option>
+              <ion-select-option value="VIII">VIII</ion-select-option>
+              <ion-select-option value="IX">IX</ion-select-option>
+              <ion-select-option value="X">X</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Edad:</ion-label>
+            <ion-input type="number" class="custom-input" [(ngModel)]="edad" name="edad" required
+              placeholder="Ingrese su edad"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Sexo:</ion-label>
+            <ion-select [(ngModel)]="sexo" name="sexo" placeholder="Seleccione su sexo" class="custom-input" required>
+              <ion-select-option value="Mujer">Mujer</ion-select-option>
+              <ion-select-option value="Hombre">Hombre</ion-select-option>
+              <ion-select-option value="Prefiero No Decirlo">Prefiero No Decirlo</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked" class="lbl">Contraseña:</ion-label>
+            <ion-input type="password" class="custom-input" [(ngModel)]="contrasena" name="contrasena" required
+              placeholder="Cree una contraseña"></ion-input>
+          </ion-item>
+
+          <ion-item class="ion-no-padding buttons-container">
+            <div class="buttons-wrapper">
+              
+              <ion-button expand="block" class="button-cancel" routerLink="/login">
+                Cancelar
+              </ion-button>
+              <ion-button expand="block" type="submit" class="register-button">
+                Registrar
+              </ion-button>
+            </div>
+          </ion-item>
+
+        </ion-list>
+      </form>
+    </div>
+  </div>
+</ion-content>
