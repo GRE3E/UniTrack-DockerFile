@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Wait for MySQL to be ready
-until nc -z -v -w30 localhost 3306
+# Wait for PostgreSQL to be ready
+until pg_isready -h localhost -p 5432 -U proyuser_user
 do
   echo "Waiting for database connection..."
   sleep 1
 done
 
 # Execute SQL script
-mysql -u root -p"root" BD_PROYUSER < /var/www/html/BD_PROYUSER.sql
+PGPASSWORD="1Pi94v788RMiCObSqGYuPZVVwv8pv6em" psql -h localhost -p 5432 -U proyuser_user -d proyuser -f /var/www/html/BD_PROYUSER.sql

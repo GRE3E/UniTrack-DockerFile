@@ -2,7 +2,7 @@ CREATE DATABASE BD_PROYUSER;
 USE BD_PROYUSER;
 
 CREATE TABLE usuario (
-  idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+  idUsuario SERIAL PRIMARY KEY,
   nombres VARCHAR(50) NOT NULL,
   apellidos VARCHAR(50) NOT NULL,
   correo VARCHAR(100) NOT NULL UNIQUE,
@@ -12,11 +12,11 @@ CREATE TABLE usuario (
   carrera VARCHAR(50) NOT NULL,
   ciclo VARCHAR(50) NOT NULL,
   edad VARCHAR(50) NOT NULL,
-  sexo VARCHAR(50) NOT NULL
+  sexo VARCHAR(50) NOT NULLa
 );
 
 CREATE TABLE administrador (
-  idAdmin INT AUTO_INCREMENT PRIMARY KEY,
+  idAdmin SERIAL PRIMARY KEY,
   nombres VARCHAR(50) NOT NULL,
   apellidos VARCHAR(50) NOT NULL,
   correo VARCHAR(100) NOT NULL UNIQUE,
@@ -27,7 +27,7 @@ CREATE TABLE administrador (
 );
 
 CREATE TABLE reportes (
-  idReporte INT AUTO_INCREMENT PRIMARY KEY,
+  idReporte SERIAL PRIMARY KEY,
   user_id VARCHAR(100) NOT NULL, 
   fecha DATE NOT NULL,
   hora TIME NOT NULL,
@@ -38,14 +38,14 @@ CREATE TABLE reportes (
 );
 
 CREATE TABLE alertas (
-  idAlerta INT AUTO_INCREMENT PRIMARY KEY,
+  idAlerta SERIAL PRIMARY KEY,
   user_id VARCHAR(100) NOT NULL,
   mensaje TEXT NOT NULL,
   fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS temp_logged_user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     correo VARCHAR(255) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS temp_logged_user (
 );
 
 CREATE TABLE verificacion_codigo (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
     codigo VARCHAR(6) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -65,11 +65,11 @@ CREATE TABLE verificacion_codigo (
 );
 
 CREATE TABLE verificacion_codigo_admin (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   id_admin INT NOT NULL,
   codigo VARCHAR(10) NOT NULL,
   intentos INT DEFAULT 0,
-  usado TINYINT DEFAULT 0,
+  usado BOOLEAN DEFAULT FALSE,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (id_admin) REFERENCES administrador(idAdmin)
 );

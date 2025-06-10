@@ -1,12 +1,10 @@
 Flask
 Flask-Mail
-mysql-connector-python
+psycopg2-binary
 opencv-python
-qrcode
 numpy
 web3
 pillow
 python-dotenv
 Flask-Cors
-qrcode
 pyzbar

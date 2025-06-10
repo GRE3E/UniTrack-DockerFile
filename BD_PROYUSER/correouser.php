@@ -48,13 +48,12 @@ if (empty($_ENV['SMTP_HOST']) || empty($_ENV['SMTP_USER']) || empty($_ENV['SMTP_
 function getUserIdByEmail($email) {
     global $conn;
     $email = trim(strtolower($email));
-    $sql = "SELECT idUsuario FROM usuario WHERE LOWER(correo) = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_assoc()) {
-        return $row['idUsuario'];
+    $sql = "SELECT idusuario FROM usuario WHERE LOWER(correo) = $1";
+    $result = pg_query_params($conn, $sql, array($email));
+    
+    if ($result && pg_num_rows($result) > 0) {
+        $row = pg_fetch_assoc($result);
+        return $row['idusuario'];
     }
     return null;
 }
@@ -72,14 +71,14 @@ function sendUserCode($email) {
 
     $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
-    $sql = "INSERT INTO verificacion_codigo (id_usuario, codigo, intentos, usado) VALUES (?, ?, 0, FALSE)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $userId, $code);
+    $sql = "INSERT INTO verificacion_codigo (id_usuario, codigo, intentos, usado) VALUES ($1, $2, $3, $4)";
+    $result = pg_query_params($conn, $sql, array($userId, $code, 0, 'false'));
 
-    if ($stmt->execute()) {
+    if ($result) {
         // Enviar correo
         $mail = new PHPMailer(true);
         try {
+            $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['MAIL_USERNAME'];
@@ -111,13 +110,12 @@ function sendUserCode($email) {
 // Verificar código
 function verifyUserCode($code) {
     global $conn;
-    $sql = "SELECT * FROM verificacion_codigo WHERE codigo = ? AND usado = 0 AND fecha_creacion >= (NOW() - INTERVAL 15 MINUTE)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $code);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT * FROM verificacion_codigo WHERE codigo = $1 AND usado = false AND fecha_creacion >= (NOW() - INTERVAL '15 minutes')";
+    $result = pg_query_params($conn, $sql, array($code));
 
-    if ($row = $result->fetch_assoc()) {
+    if ($result && pg_num_rows($result) > 0) {
+        $row = pg_fetch_assoc($result);
+        
         if ($row['intentos'] >= 5) {
             http_response_code(429);
             echo json_encode(["success" => false, "error" => "Demasiados intentos. Solicita un nuevo código."]);
@@ -125,19 +123,20 @@ function verifyUserCode($code) {
         }
 
         // Resetear intentos
-        $sqlReset = "UPDATE verificacion_codigo SET intentos = 0 WHERE codigo = ?";
-        $stmtReset = $conn->prepare($sqlReset);
-        $stmtReset->bind_param("s", $code);
-        $stmtReset->execute();
+        $sqlReset = "UPDATE verificacion_codigo SET intentos = 0 WHERE codigo = $1";
+        $resultReset = pg_query_params($conn, $sqlReset, array($code));
 
-        echo json_encode(["success" => true, "id_user" => $row['id_usuario']]);
+        if ($resultReset) {
+            echo json_encode(["success" => true, "id_user" => $row['id_usuario']]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["success" => false, "error" => "Error al resetear intentos"]);
+        }
         return;
     } else {
         // Incrementar intentos
-        $sqlUpdate = "UPDATE verificacion_codigo SET intentos = intentos + 1 WHERE codigo = ?";
-        $stmtUpdate = $conn->prepare($sqlUpdate);
-        $stmtUpdate->bind_param("s", $code);
-        $stmtUpdate->execute();
+        $sqlUpdate = "UPDATE verificacion_codigo SET intentos = intentos + 1 WHERE codigo = $1";
+        $resultUpdate = pg_query_params($conn, $sqlUpdate, array($code));
 
         http_response_code(400);
         echo json_encode(["success" => false, "error" => "Código inválido o expirado"]);
@@ -148,28 +147,27 @@ function verifyUserCode($code) {
 // Restablecer contraseña
 function resetUserPassword($password, $code) {
     global $conn;
-    $sql = "SELECT id_usuario FROM verificacion_codigo WHERE codigo = ? AND usado = 0 AND fecha_creacion >= (NOW() - INTERVAL 15 MINUTE)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $code);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT id_usuario FROM verificacion_codigo WHERE codigo = $1 AND usado = false AND fecha_creacion >= (NOW() - INTERVAL '15 minutes')";
+    $result = pg_query_params($conn, $sql, array($code));
 
-    if ($row = $result->fetch_assoc()) {
+    if ($result && pg_num_rows($result) > 0) {
+        $row = pg_fetch_assoc($result);
         $userId = $row['id_usuario'];
         $hash = password_hash($password, PASSWORD_BCRYPT);
 
-        $sqlUpdate = "UPDATE usuario SET contrasena = ? WHERE idUsuario = ?";
-        $stmtUpdate = $conn->prepare($sqlUpdate);
-        $stmtUpdate->bind_param("si", $hash, $userId);
-        $stmtUpdate->execute();
+        $sqlUpdate = "UPDATE usuario SET contrasena = $1 WHERE idusuario = $2";
+        $resultUpdate = pg_query_params($conn, $sqlUpdate, array($hash, $userId));
 
-        if ($stmtUpdate->affected_rows > 0) {
-            $sqlMark = "UPDATE verificacion_codigo SET usado = 1 WHERE codigo = ?";
-            $stmtMark = $conn->prepare($sqlMark);
-            $stmtMark->bind_param("s", $code);
-            $stmtMark->execute();
+        if ($resultUpdate && pg_affected_rows($resultUpdate) > 0) {
+            $sqlMark = "UPDATE verificacion_codigo SET usado = true WHERE codigo = $1";
+            $resultMark = pg_query_params($conn, $sqlMark, array($code));
 
-            echo json_encode(["success" => true, "message" => "Contraseña actualizada"]);
+            if ($resultMark) {
+                echo json_encode(["success" => true, "message" => "Contraseña actualizada"]);
+            } else {
+                http_response_code(500);
+                echo json_encode(["success" => false, "error" => "Error al marcar código como usado"]);
+            }
             return;
         } else {
             http_response_code(500);
@@ -197,3 +195,4 @@ if ($action === 'send-code' && !empty($data['email'])) {
     http_response_code(400);
     echo json_encode(["success" => false, "error" => "Acción o datos inválidos"]);
 }
+?>

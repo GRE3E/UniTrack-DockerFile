@@ -15,11 +15,11 @@ $host = $_ENV['DB_HOST'];
 $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
-$port = isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : 3306; // usa 3306 por defecto
+$port = isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : 5432; // usa 5432 por defecto para PostgreSQL
 
-$conn = new mysqli($host, $user, $pass, $dbname, $port);
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
 
-if ($conn->connect_error) {
+if (!$conn) {
   header('Content-Type: application/json');
   http_response_code(500);
   echo json_encode([

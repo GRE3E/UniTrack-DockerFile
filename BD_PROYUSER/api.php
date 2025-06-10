@@ -92,13 +92,10 @@ function historial($idUsuario)
             JOIN usuario u ON r.user_id = u.idUsuario 
             WHERE u.idUsuario = ?";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $idUsuario);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $result = pg_query_params($conn, $sql, array($idUsuario));
 
     $data = array();
-    while ($row = $result->fetch_assoc()) {
+    while ($row = pg_fetch_assoc($result)) {
         $data[] = $row;
     }
 
@@ -112,10 +109,10 @@ function getAllUsers()
     global $conn;
 
     $sql = "SELECT idusuario, nombres, apellidos, correo, codigo_estudiante FROM usuario";
-    $result = $conn->query($sql);
+    $result = pg_query($conn, $sql);
 
-    if ($result->num_rows > 0) {
-        return json_encode($result->fetch_all(MYSQLI_ASSOC));
+    if (pg_num_rows($result) > 0) {
+        return json_encode(pg_fetch_all($result));
     } else {
         return json_encode(["error" => "No se encontraron usuarios"]);
     }
@@ -128,13 +125,10 @@ function CurrentUser($correo)
 
     $sql = "SELECT idUsuario, nombres, apellidos, correo, codigo_estudiante, correoA, carrera, ciclo, edad, sexo 
             FROM usuario WHERE correo = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $correo);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $result = pg_query_params($conn, $sql, array($correo));
 
-    if ($result->num_rows > 0) {
-        return json_encode($result->fetch_assoc());
+    if (pg_num_rows($result) > 0) {
+        return json_encode(pg_fetch_assoc($result));
     } else {
         return json_encode(["error" => "Usuario no encontrado"]);
     }
@@ -148,11 +142,10 @@ function createUser($nombres, $apellidos, $correo, $codigo_estudiante, $contrase
     $hashedPassword = password_hash($contrasena, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO usuario (nombres, apellidos, correo, codigo_estudiante, contrasena, correoA, carrera, ciclo, edad, sexo)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssss", $nombres, $apellidos, $correo, $codigo_estudiante, $hashedPassword, $correoA, $carrera, $ciclo, $edad, $sexo);
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    $result = pg_query_params($conn, $sql, array($nombres, $apellidos, $correo, $codigo_estudiante, $hashedPassword, $correoA, $carrera, $ciclo, $edad, $sexo));
 
-    if ($stmt->execute()) {
+    if ($result) {
         return json_encode(["message" => "Usuario creado correctamente"]);
     } else {
         return json_encode(["error" => "Error al crear usuario"]);
@@ -165,14 +158,11 @@ function loginUser($correo, $contrasena)
     global $conn;
 
     $sql = "SELECT idUsuario, nombres, apellidos, correo, codigo_estudiante, contrasena, correoA, carrera, ciclo, edad, sexo
-            FROM usuario WHERE correo = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $correo);
-    $stmt->execute();
-    $result = $stmt->get_result();
+            FROM usuario WHERE correo = $1";
+    $result = pg_query_params($conn, $sql, array($correo));
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+    if (pg_num_rows($result) > 0) {
+        $user = pg_fetch_assoc($result);
         if (password_verify($contrasena, $user['contrasena'])) {
             unset($user['contrasena']);
             return json_encode(["success" => true, "user" => $user]);
@@ -189,11 +179,10 @@ function updateUser($id, $nombres, $apellidos, $correo, $codigo_estudiante)
 {
     global $conn;
 
-    $sql = "UPDATE usuario SET nombres = ?, apellidos = ?, correo = ?, codigo_estudiante = ? WHERE idusuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $nombres, $apellidos, $correo, $codigo_estudiante, $id);
+    $sql = "UPDATE usuario SET nombres = $1, apellidos = $2, correo = $3, codigo_estudiante = $4 WHERE idusuario = $5";
+    $result = pg_query_params($conn, $sql, array($nombres, $apellidos, $correo, $codigo_estudiante, $id));
 
-    if ($stmt->execute()) {
+    if ($result) {
         return json_encode(["message" => "Usuario actualizado correctamente"]);
     } else {
         return json_encode(["error" => "Error al actualizar usuario"]);
@@ -205,11 +194,10 @@ function deleteUser($id)
 {
     global $conn;
 
-    $sql = "DELETE FROM usuario WHERE idusuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
+    $sql = "DELETE FROM usuario WHERE idusuario = $1";
+    $result = pg_query_params($conn, $sql, array($id));
 
-    if ($stmt->execute()) {
+    if ($result) {
         return json_encode(["message" => "Usuario eliminado correctamente"]);
     } else {
         return json_encode(["error" => "Error al eliminar usuario"]);
@@ -223,11 +211,9 @@ function sendToken($correo)
 
     $token = bin2hex(random_bytes(16)); // genera token de 32 caracteres
 
-    $stmt = $conn->prepare("UPDATE usuario SET token_recuperacion = ? WHERE correo = ?");
-    $stmt->bind_param("ss", $token, $correo);
-    $stmt->execute();
+    $result = pg_query_params($conn, "UPDATE usuario SET token_recuperacion = $1 WHERE correo = $2", array($token, $correo));
 
-    if ($stmt->affected_rows > 0) {
+    if (pg_affected_rows($result) > 0) {
         $asunto = "Recuperación de contraseña";
         $cuerpo = "<p>Hola,</p><p>Tu token de recuperación es: <strong>$token</strong></p>";
 
