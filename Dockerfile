@@ -39,7 +39,7 @@ COPY cripto_seguridad/ /app/cripto_seguridad/
 RUN mkdir -p /app/uploads && chmod -R 777 /app/uploads
 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir -r /app/cripto_seguridad/requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r /app/cripto_seguridad/requirements.txt
 
 # Configure PHP-FPM
 COPY docker/php-fpm.conf /etc/php/8.1/fpm/php-fpm.conf
