@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-opencv \
     supervisor \
+    netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
