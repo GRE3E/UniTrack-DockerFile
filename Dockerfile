@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     netcat-traditional \
     libpq-dev \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
