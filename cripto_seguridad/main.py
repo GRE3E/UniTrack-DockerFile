@@ -13,7 +13,7 @@ from flask_mail import Mail, Message
 
 import mysql.connector
 
-load_dotenv()
+load_dotenv(dotenv_path='../.env')
 
 app = Flask(__name__)
 
@@ -81,32 +81,32 @@ def login_user():
     return jsonify({"logged_in": True})
 
 
-@app.route('/generar_qr')
-def generar_qr():
+# @app.route('/generar_qr')
+# def generar_qr():
 
-    imagen = capturar_imagen()
-    if imagen is None:
-        return jsonify({"error": "Error al capturar la imagen."}), 400
+#     imagen = capturar_imagen()
+#     if imagen is None:
+#         return jsonify({"error": "Error al capturar la imagen."}), 400
 
-    imagen_path = "captura_temp.png"
-    cv2.imwrite(imagen_path, imagen)
+#     imagen_path = "captura_temp.png"
+#     cv2.imwrite(imagen_path, imagen)
 
-    suma_pixeles = analizar_imagen(imagen)
-    metadatos = extraer_metadatos(imagen)
-    global hash_blockchain
-    hash_blockchain = generar_hash_para_blockchain(suma_pixeles, metadatos)
+#     suma_pixeles = analizar_imagen(imagen)
+#     metadatos = extraer_metadatos(imagen)
+#     global hash_blockchain
+#     hash_blockchain = generar_hash_para_blockchain(suma_pixeles, metadatos)
 
-    if enviar_hash_a_blockchain(hash_blockchain):
-        nombre_archivo_qr = "codigo_qr.png"
-        qr_image_path = os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_qr)
-        generar_codigo_qr(hash_blockchain, qr_image_path)
+#     if enviar_hash_a_blockchain(hash_blockchain):
+#         nombre_archivo_qr = "codigo_qr.png"
+#         qr_image_path = os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_qr)
+#         generar_codigo_qr(hash_blockchain, qr_image_path)
 
-        os.remove(imagen_path)
-        qr_image_url = url_for('static', filename=nombre_archivo_qr, _external=True)
-        return jsonify({"qr_image_url": qr_image_url})
-    else:
-        os.remove(imagen_path)
-        return jsonify({"error": "Error al enviar el hash a la blockchain."}), 500
+#         os.remove(imagen_path)
+#         qr_image_url = url_for('static', filename=nombre_archivo_qr, _external=True)
+#         return jsonify({"qr_image_url": qr_image_url})
+#     else:
+#         os.remove(imagen_path)
+#         return jsonify({"error": "Error al enviar el hash a la blockchain."}), 500
 
 
 
@@ -212,5 +212,37 @@ def reporte(data=None):
        pass
     return jsonify({"reported": True})
 
+import sys
+
 if __name__ == "__main__":
-    app.run()
+    if len(sys.argv) > 1:
+        image_path = sys.argv[1]
+        try:
+            # Cargar la imagen usando OpenCV
+            imagen = cv2.imread(image_path)
+            if imagen is None:
+                print(json.dumps({"error": "No se pudo cargar la imagen desde la ruta proporcionada."}), file=sys.stderr)
+                sys.exit(1)
+
+            suma_pixeles = analizar_imagen(imagen)
+            metadatos = extraer_metadatos(imagen)
+            hash_blockchain = generar_hash_para_blockchain(suma_pixeles, metadatos)
+
+            # Generar QR y obtener URL
+            nombre_archivo_qr = "codigo_qr.png"
+            qr_image_path = os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_qr)
+            generar_codigo_qr(hash_blockchain, qr_image_path)
+            qr_image_url = url_for('static', filename=nombre_archivo_qr, _external=True)
+
+            # Enviar a blockchain (simulado o real)
+            if enviar_hash_a_blockchain(hash_blockchain):
+                print(json.dumps({"qr_image_url": qr_image_url, "hash": hash_blockchain}))
+            else:
+                print(json.dumps({"error": "Error al enviar el hash a la blockchain."}), file=sys.stderr)
+                sys.exit(1)
+
+        except Exception as e:
+            print(json.dumps({"error": f"Error en el script Python: {str(e)}"}), file=sys.stderr)
+            sys.exit(1)
+    else:
+        app.run()

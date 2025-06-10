@@ -44,8 +44,42 @@ function enviarCorreo($correoDestino, $asunto, $cuerpo)
         $mail->send();
         return true;
     } catch (Exception $e) {
+        // Log the error for debugging
+        error_log('Mailer Error: ' . $mail->ErrorInfo);
         return false;
     }
+}
+
+// Ruta para subir imágenes
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['action']) && $_GET['action'] == 'upload') {
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
+        $uploadDir = '/app/uploads/'; // Directorio temporal dentro del contenedor
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        $uploadedFile = $uploadDir . basename($_FILES['image']['name']);
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadedFile)) {
+            // Llamar al script Python
+            $pythonScriptPath = '/app/cripto_seguridad/main.py'; // Ruta al script Python dentro del contenedor
+            $command = 'python3 ' . escapeshellarg($pythonScriptPath) . ' ' . escapeshellarg($uploadedFile);
+            $output = shell_exec($command);
+
+            // Decodificar la salida JSON del script Python
+            $result = json_decode($output, true);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'analysis_result' => $result]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al procesar la salida del script Python.', 'python_output' => $output]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error al mover el archivo subido.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'No se subió ninguna imagen o hubo un error en la subida.']);
+    }
+    exit();
 }
 
 // Función para obtener historial

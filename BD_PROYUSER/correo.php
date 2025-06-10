@@ -9,6 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 require_once __DIR__ . '/vendor/autoload.php'; // Para dotenv
+
+// Cargar variables de entorno desde .env
+$env_path = dirname(__DIR__) . '/.env';
+if (file_exists($env_path)) {
+  $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  foreach ($lines as $line) {
+    if (strpos(trim($line), '#') === 0) continue;
+    list($name, $value) = explode('=', $line, 2);
+    $_ENV[trim($name)] = trim($value);
+  }
+}
+
 include_once 'config.php';
 
 // PHPMailer
@@ -19,9 +31,7 @@ require 'PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer-master/src/SMTP.php';
 require 'PHPMailer-master/src/Exception.php';
 
-// Cargar variables de entorno
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+
 
 // DEPURACIÓN: Verifica conexión a la base de datos
 if (!$conn) {
@@ -31,7 +41,7 @@ if (!$conn) {
 }
 
 // DEPURACIÓN: Verifica variables de entorno SMTP
-if (empty($_ENV['SMTP_HOST']) || empty($_ENV['SMTP_USER']) || empty($_ENV['SMTP_PASS'])) {
+if (empty($_ENV['MAIL_USERNAME']) || empty($_ENV['MAIL_PASSWORD'])) {
     http_response_code(500);
     echo json_encode(["success" => false, "error" => "Variables SMTP no cargadas"]);
     exit();
@@ -73,14 +83,14 @@ function sendCode($email)
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = $_ENV['SMTP_HOST'];
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = $_ENV['SMTP_USER'];
-            $mail->Password = $_ENV['SMTP_PASS'];
-            $mail->SMTPSecure = $_ENV['SMTP_SECURE'];
-            $mail->Port = $_ENV['SMTP_PORT'];
+            $mail->Username = $_ENV['MAIL_USERNAME'];
+            $mail->Password = $_ENV['MAIL_PASSWORD'];
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-            $mail->setFrom($_ENV['SMTP_FROM'], $_ENV['SMTP_FROM_NAME']);
+            $mail->setFrom($_ENV['MAIL_USERNAME'], 'Somos X');
             $mail->addAddress($email);
             $mail->Subject = 'Código de verificación';
             $mail->Body = "Tu código de verificación es: $code";

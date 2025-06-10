@@ -19,9 +19,16 @@ require 'PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer-master/src/SMTP.php';
 require 'PHPMailer-master/src/Exception.php';
 
-// Cargar variables de entorno
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// Cargar variables de entorno desde .env
+$env_path = dirname(__DIR__) . '/.env';
+if (file_exists($env_path)) {
+  $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  foreach ($lines as $line) {
+    if (strpos(trim($line), '#') === 0) continue;
+    list($name, $value) = explode('=', $line, 2);
+    $_ENV[trim($name)] = trim($value);
+  }
+}
 
 // Verificar conexión
 if (!$conn) {
@@ -73,15 +80,14 @@ function sendUserCode($email) {
         // Enviar correo
         $mail = new PHPMailer(true);
         try {
-            $mail->isSMTP();
-            $mail->Host = $_ENV['SMTP_HOST'];
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = $_ENV['SMTP_USER'];
-            $mail->Password = $_ENV['SMTP_PASS'];
+            $mail->Username = $_ENV['MAIL_USERNAME'];
+            $mail->Password = $_ENV['MAIL_PASSWORD'];
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom($_ENV['SMTP_USER'], 'Soporte - Tu App');
+            $mail->setFrom($_ENV['MAIL_USERNAME'], 'Somos X');
             $mail->addAddress($email);
 
             $mail->isHTML(true);
