@@ -167,7 +167,7 @@ function loginUser($correo, $contrasena)
             unset($user['contrasena']);
             return json_encode(["success" => true, "user" => $user]);
         } else {
-            return json_encode(["error" => "Contraseña incorrecta"]);
+                return json_encode(["error" => "Contraseña incorrecta"]);
         }
     } else {
         return json_encode(["error" => "Usuario no encontrado"]);
@@ -239,7 +239,7 @@ try {
             echo CurrentUser($_GET['correo']);
         } elseif ($_GET['action'] === 'historial' && isset($_GET['idUsuario'])) {
             historial($_GET['idUsuario']);
-        } else {
+        } elseif ($action === 'addUser' || ($_SERVER['REQUEST_URI'] === '/api/usuarios/add' && $_SERVER['REQUEST_METHOD'] === 'POST')) {
             echo getAllUsers();
         }
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -250,7 +250,7 @@ try {
             echo loginUser($data['correo'], $data['contrasena']);
         } elseif ($action === 'sendVerificationCode') {
             sendToken($data['correo']);
-        } else {
+        } elseif ($action === 'addUser' || ($_SERVER['REQUEST_URI'] === '/api/usuarios/add' && $_SERVER['REQUEST_METHOD'] === 'POST')) {
             // Registro
             if (
                 empty($data['nombres']) || empty($data['apellidos']) || empty($data['correo']) ||
