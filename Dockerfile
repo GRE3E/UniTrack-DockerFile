@@ -59,8 +59,5 @@ RUN chmod +x /usr/local/bin/init_db.sh
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Load environment variables
-COPY .env /app/.env
-
 # Start Supervisord
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
