@@ -11,7 +11,8 @@ from dotenv import load_dotenv
 import datetime
 from flask_mail import Mail, Message
 
-import mysql.connector
+import psycopg2
+import time
 
 load_dotenv(dotenv_path='../.env')
 
@@ -29,14 +30,25 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 mail = Mail(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Configuración de la conexión a la base de datos MySQL
-mydb = mysql.connector.connect(
-    host=os.getenv('MYSQL_HOST'),
-    user=os.getenv('MYSQL_USER'),
-    password=os.getenv('MYSQL_PASSWORD'),
-    database=os.getenv('MYSQL_DATABASE'),
-    port=int(os.getenv('MYSQL_PORT', 3306))
-)
+def get_db_connection():
+    retries = 5
+    while retries > 0:
+        try:
+            conn = psycopg2.connect(
+                host=os.getenv('PG_HOST'),
+                user=os.getenv('PG_USER'),
+                password=os.getenv('PG_PASSWORD'),
+                database=os.getenv('PG_DATABASE'),
+                port=os.getenv('PG_PORT')
+            )
+            return conn
+        except psycopg2.OperationalError as e:
+            print(f"Database connection failed: {e}")
+            retries -= 1
+            time.sleep(5) # Wait for 5 seconds before retrying
+    raise Exception("Could not connect to the database after multiple retries.")
+
+mydb = get_db_connection()
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static')
 
 # Declarar la variable hash_blockchain como global
@@ -46,23 +58,23 @@ hash_blockchain = None
 
 # Funciones para manejar la tabla temporal
 def store_temp_user(user_id, nombre, correo, modo, correoA):
-    mycursor = mydb.cursor()
-    sql = "INSERT INTO temp_logged_user (user_id, nombre, correo, modo, correoA) VALUES (%s, %s, %s, %s, %s)"
-    val = (user_id, nombre, correo, modo, correoA)
-    mycursor.execute(sql, val)
+    with mydb.cursor() as mycursor:
+        sql = "INSERT INTO temp_logged_user (user_id, nombre, correo, modo, correoA) VALUES (%s, %s, %s, %s, %s)"
+        val = (user_id, nombre, correo, modo, correoA)
+        mycursor.execute(sql, val)
     mydb.commit()
 
 def get_temp_user():
-    mycursor = mydb.cursor()
-    sql = "SELECT user_id, nombre, correo, modo, correoA, timestamp FROM temp_logged_user ORDER BY timestamp DESC LIMIT 1"
-    mycursor.execute(sql)
-    user = mycursor.fetchone()
-    return user
+    with mydb.cursor() as mycursor:
+        sql = "SELECT user_id, nombre, correo, modo, correoA, timestamp FROM temp_logged_user ORDER BY timestamp DESC LIMIT 1"
+        mycursor.execute(sql)
+        user = mycursor.fetchone()
+        return user
 
 def delete_temp_user():
-    mycursor = mydb.cursor()
-    sql = "DELETE FROM temp_logged_user"
-    mycursor.execute(sql)
+    with mydb.cursor() as mycursor:
+        sql = "DELETE FROM temp_logged_user"
+        mycursor.execute(sql)
     mydb.commit()
 
 @app.route('/login_user', methods=['POST'])
@@ -131,11 +143,11 @@ def verify_qr():
             restriccion = datetime.timedelta(minutes=10)
 
             # Verificar el último registro del usuario en la tabla de reportes
-            mycursor = mydb.cursor()
-            sql = "SELECT timestamp FROM reportes WHERE user_id = %s AND modo = %s ORDER BY timestamp DESC LIMIT 1"
-            val = (user_id, modo)
-            mycursor.execute(sql, val)
-            last_record = mycursor.fetchone()
+            with mydb.cursor() as mycursor:
+                sql = "SELECT timestamp FROM reportes WHERE user_id = %s AND modo = %s ORDER BY timestamp DESC LIMIT 1"
+                val = (user_id, modo)
+                mycursor.execute(sql, val)
+                last_record = mycursor.fetchone()
 
             if last_record:
                 last_timestamp = last_record[0]
@@ -175,30 +187,29 @@ def reporte(data=None):
         return jsonify({"error": "ID de usuario no proporcionado"}), 400
 
     # Crear un cursor para ejecutar consultas SQL
-    mycursor = mydb.cursor()
+    with mydb.cursor() as mycursor:
+        # Verificar el último registro del usuario
+        sql = "SELECT timestamp FROM reportes WHERE user_id = %s AND modo = %s ORDER BY timestamp DESC LIMIT 1"
+        val = (user_id, modo)
+        mycursor.execute(sql, val)
+        last_record = mycursor.fetchone()
 
-    # Verificar el último registro del usuario
-    sql = "SELECT timestamp FROM reportes WHERE user_id = %s AND modo = %s ORDER BY timestamp DESC LIMIT 1"
-    val = (user_id, modo)
-    mycursor.execute(sql, val)
-    last_record = mycursor.fetchone()
+        if last_record:
+            last_timestamp = last_record[0]
+            now = datetime.datetime.now()
+            time_difference = now - last_timestamp
 
-    if last_record:
-        last_timestamp = last_record[0]
-        now = datetime.datetime.now()
-        time_difference = now - last_timestamp
+            # Verificar si la diferencia de tiempo es menor a un umbral (por ejemplo, 10 minutos)
+            if time_difference.total_seconds() < 10 * 60:
+                return jsonify({"error": "No puede generar el mismo modo de QR en un corto tiempo."}), 400
 
-        # Verificar si la diferencia de tiempo es menor a un umbral (por ejemplo, 10 minutos)
-        if time_difference.total_seconds() < 10 * 60:
-            return jsonify({"error": "No puede generar el mismo modo de QR en un corto tiempo."}), 400
-
-    # Insertar la información en la tabla correspondiente
-    sql = "INSERT INTO reportes (fecha, hora, user_id, nombre, email, modo, timestamp) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    fecha_actual = datetime.datetime.now().date()
-    hora_actual = datetime.datetime.now().time()
-    timestamp = datetime.datetime.now()
-    val = (fecha_actual, hora_actual, user_id, nombres, correo, modo, timestamp)
-    mycursor.execute(sql, val)
+        # Insertar la información en la tabla correspondiente
+        sql = "INSERT INTO reportes (fecha, hora, user_id, nombre, email, modo, timestamp) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        fecha_actual = datetime.datetime.now().date()
+        hora_actual = datetime.datetime.now().time()
+        timestamp = datetime.datetime.now()
+        val = (fecha_actual, hora_actual, user_id, nombres, correo, modo, timestamp)
+        mycursor.execute(sql, val)
 
     # Confirmar la ejecución de la consulta
     mydb.commit()
@@ -215,34 +226,39 @@ def reporte(data=None):
 import sys
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        image_path = sys.argv[1]
-        try:
-            # Cargar la imagen usando OpenCV
-            imagen = cv2.imread(image_path)
-            if imagen is None:
-                print(json.dumps({"error": "No se pudo cargar la imagen desde la ruta proporcionada."}), file=sys.stderr)
+    try:
+        if len(sys.argv) > 1:
+            image_path = sys.argv[1]
+            try:
+                # Cargar la imagen usando OpenCV
+                imagen = cv2.imread(image_path)
+                if imagen is None:
+                    print(json.dumps({"error": "No se pudo cargar la imagen desde la ruta proporcionada."}), file=sys.stderr)
+                    sys.exit(1)
+
+                suma_pixeles = analizar_imagen(imagen)
+                metadatos = extraer_metadatos(imagen)
+                hash_blockchain = generar_hash_para_blockchain(suma_pixeles, metadatos)
+
+                # Generar QR y obtener URL
+                nombre_archivo_qr = "codigo_qr.png"
+                qr_image_path = os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_qr)
+                generar_codigo_qr(hash_blockchain, qr_image_path)
+                qr_image_url = url_for('static', filename=nombre_archivo_qr, _external=True)
+
+                # Enviar a blockchain (simulado o real)
+                if enviar_hash_a_blockchain(hash_blockchain):
+                    print(json.dumps({"qr_image_url": qr_image_url, "hash": hash_blockchain}))
+                else:
+                    print(json.dumps({"error": "Error al enviar el hash a la blockchain."}), file=sys.stderr)
+                    sys.exit(1)
+
+            except Exception as e:
+                print(json.dumps({"error": f"Error en el script Python: {str(e)}"}), file=sys.stderr)
                 sys.exit(1)
-
-            suma_pixeles = analizar_imagen(imagen)
-            metadatos = extraer_metadatos(imagen)
-            hash_blockchain = generar_hash_para_blockchain(suma_pixeles, metadatos)
-
-            # Generar QR y obtener URL
-            nombre_archivo_qr = "codigo_qr.png"
-            qr_image_path = os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo_qr)
-            generar_codigo_qr(hash_blockchain, qr_image_path)
-            qr_image_url = url_for('static', filename=nombre_archivo_qr, _external=True)
-
-            # Enviar a blockchain (simulado o real)
-            if enviar_hash_a_blockchain(hash_blockchain):
-                print(json.dumps({"qr_image_url": qr_image_url, "hash": hash_blockchain}))
-            else:
-                print(json.dumps({"error": "Error al enviar el hash a la blockchain."}), file=sys.stderr)
-                sys.exit(1)
-
-        except Exception as e:
-            print(json.dumps({"error": f"Error en el script Python: {str(e)}"}), file=sys.stderr)
-            sys.exit(1)
-    else:
-        app.run()
+        else:
+            port = int(os.environ.get('PORT', 5000))
+            app.run(host='0.0.0.0', port=port)
+    finally:
+        if 'mydb' in locals() and mydb:
+            mydb.close()
