@@ -55,7 +55,6 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Copy and execute database initialization script
 COPY docker/init_db.sh /usr/local/bin/init_db.sh
 RUN chmod +x /usr/local/bin/init_db.sh
-RUN /usr/local/bin/init_db.sh
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
